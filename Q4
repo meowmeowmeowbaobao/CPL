@@ -1,0 +1,38 @@
+#include <iostream>
+using namespace std;
+int main(){ 
+	int num;
+	cout <<"Enter the height of Pascal's triangle: ";
+	cin >>num;
+	cout <<"The h = " << num <<" Pascal's triangle is shown below."<<endl;
+	
+	if(num<=0) cout << 0;
+	else{
+		for (int i=1;i<=num;i++){ //第幾行 
+			for (int j=1;j<=i;j++){  //第幾個 
+			int c1=1,c2=1,c3=1;
+			
+			//c1是分子 i階層 
+			for (int k=1;k<=i-1;k++) c1=c1*k;
+			
+			//c2,c3是分母 j階層  i-j階層 
+			for (int k=1;k<=j-1;k++)	c2 = c2*k;
+			for (int k=1;k<=i-j;k++) c3 = c3*k;
+			
+			cout <<c1/c2/c3;
+			
+			if (i==j) cout <<endl;
+			else cout << "\t";
+			}
+		}
+		
+		
+		
+	}
+	
+
+
+return 0;
+}
+
+
