@@ -1,0 +1,14 @@
+#include <iostream>
+#include <iomanip> 
+using namespace std;
+int main(){
+	long long c1;
+	cin >> c1;
+	
+	for (int i=15;i>=0;i--){
+	//cout<<i<<'\t';
+	cout<<((c1 >> i) & 0b0000000000000001);
+	}
+	
+	
+}
