@@ -1,0 +1,33 @@
+#include <iostream>
+#include <iomanip> 
+
+using namespace std;
+int main(){
+	
+    char c1, c2, c3, c4;
+    cin >> c1 >> c2 >> c3 >> c4;
+    
+    //8進位 
+	if (c1 == '0'){
+		cout << "The input is octal: " << c1<<c2<<c3<<c4<<endl;
+		cout << "decimal:"<<c1<<" "<<c2<<" "<<c3<<" "<<c4<<endl;
+	}
+	//16進位 
+	else if (c1 == '0' && c2=='x'){
+		cout << "The input is hexadecimal: " << c1<<c2<<c3<<c4<<endl;
+		cout << "decimal:" ;
+	}
+	//10進位
+	else{
+		cout << "The input is decimal: " << c1<<c2<<c3<<c4<<endl;
+		cout << "decimal:";
+	}
+	
+	
+//TEMPLATE BEGIN
+    
+//TEMPLATE END
+
+
+    return 0;
+}
