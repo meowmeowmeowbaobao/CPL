@@ -1,0 +1,17 @@
+#include <iostream>
+#include <iomanip> 
+using namespace std;
+int main(){
+	int sum,leg,i=0; //i是雞 
+	cin >> sum >>leg;
+	while (i>=0 && i<=sum){
+		
+		if (i*2+(sum-i)*4==leg){
+			cout << i <<" "<<sum-i;
+			break;
+		}
+		i+=1;
+		
+	}
+	if (i==sum+1) cout <<"There is no solution";
+}
