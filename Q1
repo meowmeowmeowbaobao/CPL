@@ -7,27 +7,28 @@ int main(){
     char c1, c2, c3, c4;
     cin >> c1 >> c2 >> c3 >> c4;
     
-    //8進位 
-	if (c1 == '0'){
-		cout << "The input is octal: " << c1<<c2<<c3<<c4<<endl;
-		cout << "decimal:"<<c1<<" "<<c2<<" "<<c3<<" "<<c4<<endl;
-	}
-	//16進位 
-	else if (c1 == '0' && c2=='x'){
+    //16進位 
+	if (c1 == '0'&& c2=='x'){	
 		cout << "The input is hexadecimal: " << c1<<c2<<c3<<c4<<endl;
-		cout << "decimal:" ;
+		c3 = (c3>96 && c3<103)? c3-87:c3-48;
+		c4 = (c4>96 && c4<103)? c4-87:c4-48;	
+		cout << "decimal: "<<16*c3+c4 ;
+	}
+	//8進位 
+	else if (c1 == '0' ){
+		cout << "The input is octal: " << c1<<c2<<c3<<c4<<endl;
+		c2-=48, c3-=48, c4-=48;
+		cout << "decimal: "<<c2*64+c3*8+c4;
+		
 	}
 	//10進位
 	else{
 		cout << "The input is decimal: " << c1<<c2<<c3<<c4<<endl;
-		cout << "decimal:";
+		cout << "decimal: "<< c1<<c2<<c3<<c4<<endl;
 	}
 	
 	
-//TEMPLATE BEGIN
-    
-//TEMPLATE END
-
 
     return 0;
 }
+
