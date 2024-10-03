@@ -6,60 +6,73 @@ int main()
 //PREPEND END
 
 //TEMPLATE BEGIN
-	char cc[100]={};
-	int width,shift,height,n=0,num=0;
-	char **C=NULL,**temp=NULL;
+	int width=0,height=0,shift=0;
+	char ** p=NULL,*temp=NULL;
+	char cc[101]={};
 	cin>>width>>shift;
-	cin.getline(cc,sizeof(cc));
+	cin.getline(cc,101);
 	
-	for (int i = 0; cc[i] != '\0'; i++) {
-        if (cc[i] != ' ') {
-            cc[n] = cc[i];
-            n++; 
-        }
-    }
-	if (n%width == 0) height=n/width;
-	else height=n/width+1;
+	 
+	//先計算有幾個字母 ,並且把空格剔除 
+	int size=0,m=0; 
+	for (int i=0;i<100;i++){
+		if(cc[i]!='\0'&&cc[i]!=' '){
+			size++;
+			cc[m]=cc[i];
+			m++;
+		}  
+	} 
+	//cout<<size;
 	
-	C = new char*[height];
-	for (int i=0;i<height;i++){
-		C[i] = new char[width];
+	//做一個空的2維陣列
+	height = (size%width)? size/width+1 : size/width; 
+	p = new char*[height];
+	for (int i=0;i<height;i++) p[i]=new char[width];
+	
+	//初始化p
+	for (int i=0;i<height;i++)
+	for (int j=0;j<width;j++) p[i][j]='0';
+	
+	//讓p指到cc
+	int n=0; //純粹計數用的 
+	for (int i=0;i<height;i++)
+	for (int j=0;j<width;j++) {
+		if (n<size) p[i][j]=cc[n];
+		n++;
 	}
-	
-	for (int i=0;i<height;i++){
-		for (int j=0;j<width;j++){
-			if (num<=n) C[i][j] = cc[num];
-			num++;
+	//把每一行存入temp裡面做平移
+	for (int i = 0;i<height;i++){
+		if (i==height-1 && size%width){ //不整除的最後一行 
+			//cout<<"有到最後一行喔"<<endl;
+			int mod=size%width;
+			temp = new char[mod];
+			for (int j = 0;j<mod;j++) temp[j] = p[i][(j + mod - shift)%mod];
+			for (int j = 0;j<mod;j++) p[i][j] = temp[j];
+			delete temp;
 		}
-	}
-	//來寫平移吧 
-	temp = new char*[height];
-	for (int i=0;i<height;i++){
-		temp[i] = new char[width];
-	}
-	
-	for (int i=0;i<height;i++){
-		for (int j=0;j<width;j++){
-			if (i==(height-1)) temp[i][j] = C[i][j]+shift;
+		
+		else{  
+			temp = new char[width];
+			for (int j = 0;j<width;j++) temp[j] = p[i][(j + width - shift)%width];
+			//for (int j = 0;j<width;j++) cout<<(j+shift)%width;
 			
-			
-			else{
-				
-					temp[i][j] = C[i][j]+shift;
-			}
-			
+			for (int j = 0;j<width;j++) p[i][j] = temp[j];
+			delete temp;
 		}
 		
 	}
-	
+
 	for (int i=0;i<height;i++){
 		for (int j=0;j<width;j++){
-			cout << temp[i][j]<<'\t';
+			if(p[i][j]!='0') cout<<p[i][j]<<'\t';
 		}
 		cout<<endl;
+
 	}
-	
-	
+	 
+	for (int j=0;j<width;j++)
+	for (int i=0;i<height;i++) if(p[i][j]!='0') cout<<p[i][j];
+	//cout<<endl;
 //TEMPLATE END    
 
 //APPEND BEGIN	
