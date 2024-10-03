@@ -1,0 +1,27 @@
+//PREPEND BEGIN
+#include <iostream>
+using namespace std;
+int main() 
+{
+	int i, j;
+	int N;
+	cin >> N;
+	int A[3][3];
+	for (i = 0; i < N; i++) 
+	{
+		for (j = 0; j < N; j++) 
+		{
+			cin >> A[i][j];
+                }
+        }
+//PREPEND END
+    
+//TEMPLATE BEGIN    
+	if (N==2) cout<<A[0][0]*A[1][1]-A[0][1]*A[1][0];
+	else if(N==3) cout<<A[0][0]*(A[2][2]*A[1][1]-A[1][2]*A[2][1]) -A[0][1]*(A[1][0]*A[2][2]-A[2][0]*A[1][2]) +A[0][2]*(A[1][0]*A[2][1]-A[1][1]*A[2][0]);
+//TEMPLATE END    
+
+//APPEND BEGIN
+	return 0;
+}
+//APPEND END
