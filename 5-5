@@ -1,0 +1,68 @@
+//PREPEND BEGIN
+#include <iostream>
+using namespace std;
+int main()
+{
+//PREPEND END
+
+//TEMPLATE BEGIN
+	char cc[100]={};
+	int width,shift,height,n=0,num=0;
+	char **C=NULL,**temp=NULL;
+	cin>>width>>shift;
+	cin.getline(cc,sizeof(cc));
+	
+	for (int i = 0; cc[i] != '\0'; i++) {
+        if (cc[i] != ' ') {
+            cc[n] = cc[i];
+            n++; 
+        }
+    }
+	if (n%width == 0) height=n/width;
+	else height=n/width+1;
+	
+	C = new char*[height];
+	for (int i=0;i<height;i++){
+		C[i] = new char[width];
+	}
+	
+	for (int i=0;i<height;i++){
+		for (int j=0;j<width;j++){
+			if (num<=n) C[i][j] = cc[num];
+			num++;
+		}
+	}
+	//來寫平移吧 
+	temp = new char*[height];
+	for (int i=0;i<height;i++){
+		temp[i] = new char[width];
+	}
+	
+	for (int i=0;i<height;i++){
+		for (int j=0;j<width;j++){
+			if (i==(height-1)) temp[i][j] = C[i][j]+shift;
+			
+			
+			else{
+				
+					temp[i][j] = C[i][j]+shift;
+			}
+			
+		}
+		
+	}
+	
+	for (int i=0;i<height;i++){
+		for (int j=0;j<width;j++){
+			cout << temp[i][j]<<'\t';
+		}
+		cout<<endl;
+	}
+	
+	
+//TEMPLATE END    
+
+//APPEND BEGIN	
+	return 0;
+}
+//APPEND END
