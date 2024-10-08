@@ -1,0 +1,41 @@
+//PREPEND BEGIN
+#include <iostream>
+
+using namespace std;
+
+int main() {
+	char str[10], *token; //str用來存放輸入字串，token當作指標，表示哪裡開始是母音。
+	cin >> str;
+	
+//PREPEND END
+
+
+//TEMPLATE BEGIN
+	int num=0;
+	for (int i=0;i<10;i++){
+		token = str+i;
+		if (*token=='a'||*token=='e'||*token=='i'||*token=='o'||*token=='u') 
+		{	
+		    num = i;
+			//cout<<"第"<<i<<"位置是母音" ;
+			break;
+		}
+		
+	}
+	//輸出
+	cout<<token;
+	for (int j=0;j<num;j++){
+		cout<<str[j];
+		//cout<<token;
+		//if (*(token+j-num)!='\0' && *(token+j-num)!=" " )	cout<<*(token+j-num);
+	}
+	cout<<'a'<<'y';
+	
+//TEMPLATE END
+
+
+
+//APPEND BEGIN
+	return 0;
+}
+//APPEND END
