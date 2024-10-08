@@ -7,35 +7,43 @@ int main() {
 	char **name=NULL,**typed=NULL;
 	name = new char*[num];
 	typed = new char*[num];
+	int len[num] = {0};
+	int len2[num] = {0};
 	
 	for (int i=0;i<num;i++){
 		cin>>n; //名字長度 
-		name[i] = new char[n];
+		len[i] = n;
+		name[i] = new char[n+1];
+		name[i][n] = 0;
 		for (int j=0;j<n;j++) cin>>name[i][j];
 	}
 	
 	for (int i=0;i<num;i++){
 		cin>>n; //名字長度 
-		typed[i] = new char[n];
+		len2[i] =  n;
+		typed[i] = new char[n+1];
+		typed[i][n] = 0;
 		for (int j=0;j<n;j++) cin>>typed[i][j];
 	}
-	
 	//for (int i=0;i<num;i++) cout<<name[i]<<endl;
 	//思考怎麼判斷
-	int a1=0,a2=0;
+	int a1,a2;
 	for (int i=0;i<num;i++){
-		
-		if(name[i][a1]==' '||typed[i][a2]==' ') break;
-		else{
+		a1=0;
+		a2=0;
+		bool same = true;
+		while(a1 < len[i] || a2 < len2[i]) {
 			if (name[i][a1]==typed[i][a2]){
 				a1+=1;
 				a2+=1;
 			}
 			else if(typed[i][a2]==typed[i][a2-1]) a2+=1;
-			
+			else{
+				same = false;
+				break;
+			}
 		}
-		
-	
+		cout << boolalpha << same << endl;
 		
 	} 
 	
