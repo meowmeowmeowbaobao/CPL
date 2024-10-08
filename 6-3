@@ -8,10 +8,10 @@ int main(){
 	for (int i=0;i<n;i++){
 		cin>>len;
 		a[i] = new char[len];
-		cin>>a[i];
+		for (int j=0;j<len;j++) cin>>a[i][j]; 
+		
 	}
 	//for (int i=0;i<n;i++) cout<<a[i]<<endl;
-	//int num=0; //計數器 
 	char alp[26]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
 	int  AlpNum[26]={0};
 	
