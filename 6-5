@@ -1,0 +1,63 @@
+#include <iostream>
+using namespace std;
+int main(){
+	int n=0,height=0,width=0,Q=0,**point=NULL,min=0;
+	
+	cin>>n;
+	while(n>0){
+		
+		char ** a=NULL;
+		cin>>height>>width;
+		cin>>Q;
+		//存入字母資料,Q個位置點 
+		a = new char*[height];
+		for (int i=0;i<height;i++)	a[i] = new char[width];
+		for (int i=0;i<height;i++)
+		for (int j=0;j<width;j++)	cin>>a[i][j];
+		
+		point = new int*[Q];
+		for (int i=0;i<Q;i++)	point[i] = new int[2];
+		for (int i=0;i<Q;i++)
+		for (int j=0;j<2;j++)	cin>>point[i][j];
+		//貌似成功存入了 
+		cout<<height<<" "<<width<<" "<<Q<<endl;
+		
+		for (int m=0;m<Q;m++){ //跑Q個位置點 
+			//取出距離邊長的最小值 
+			min = (point[m][0]>point[m][1])? point[m][1]:point[m][0];
+			min = (min>width-point[m][1]-1)? width-point[m][1]-1:min;
+			min = (min>height-point[m][0]-1)? height-point[m][0]-1:min;
+			//cout<<"第"<<m+1<<"組:"<<min<<endl; 
+			//cout<<point[m][0]<<" "<<point[m][1]<<" "<<height-point[m][0]-1<< " "<<width-point[m][1]-1<<endl;
+			
+			bool isMatch = true; // 是否符合條件
+			for(int i=0;i<=min;i++){ //測每一種邊長的正方形 
+			//a[point[m][0]][point[m][1]]  這裡是中心點 
+			
+				for(int j=point[m][0]-i;j<=point[m][0]+i && isMatch;j++) {//直著刷
+					for(int k=point[m][1]-i;k<=point[m][1]+i && isMatch;k++){ //橫著刷 
+					//cout<<i<<j<<" ";
+						if (a[point[m][0]][point[m][1]] != a[j][k] && isMatch){
+							
+							cout<<2*(i-1)+1<<endl;
+							isMatch=false;
+							break;
+						}
+					}
+					if(isMatch==false) break;
+				} 
+				
+				
+			}
+			if(isMatch) cout<<2*min+1<<endl;
+		}
+		
+		
+		
+		
+		
+		
+		
+		n--;
+	}
+}
