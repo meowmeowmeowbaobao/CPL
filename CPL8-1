@@ -1,0 +1,28 @@
+//PREPEND BEGIN
+#include<iostream>
+#include<iomanip> 
+using namespace std;
+//PREPEND END
+
+//TEMPLATE BEGIN
+#include<cmath>
+double Interest(double PV, double rate, int month, char type)
+{
+  if(type=='S') return PV*(1+rate*month);
+  else if (type=='C')return PV*pow(1+rate,month);
+  else return -1;
+}
+//TEMPLATE END
+
+//APPEND BEGIN
+int main()
+{
+	int month = 0;
+	double PV = 0, FV = 0, rate = 0;
+	char type = '\0';
+	cin >> PV >> rate >> month >> type;
+	FV = Interest(PV, rate, month, type);
+	cout << fixed << setprecision(2) << FV << endl;
+	return 0;
+}
+//APPEND END
