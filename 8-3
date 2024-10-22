@@ -1,0 +1,45 @@
+//PREPEND BEGIN
+#include<iostream>
+using namespace std;
+//PREPEND END
+
+//TEMPLATE BEGIN
+#include <cmath>
+int Modular(int base, int exponent, int mod) {
+    int result = 1;
+    base = base % mod;
+
+    while (exponent > 0) {
+        if (exponent % 2 == 1) {  
+            result = (result * base) % mod;
+        }
+        base = (base * base) % mod;  
+        exponent /= 2;  
+    }
+
+    return result;
+}
+
+void Diffie_Hellman_Key(int a, int b, int g, int p, int& ShareKey) {
+    int A = Modular(g, a, p);  
+    int B = Modular(g, b, p); 
+    
+    
+    ShareKey = Modular(B, a, p);  
+}
+//TEMPLATE END
+
+
+//APPEND BEGIN
+int main()
+{
+	int a, b;
+	int g, p;
+	int ShareKey;
+	cin >> a >> b >> g >> p; 
+	Diffie_Hellman_Key(a, b, g, p, ShareKey);
+	cout << ShareKey << endl;
+	return 0;
+}
+//APPEND END
+
