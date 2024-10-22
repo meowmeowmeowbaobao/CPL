@@ -1,0 +1,31 @@
+//PREPEND BEGIN
+#include <iostream>
+#define MOD 1000000007
+using namespace std;
+//PREPEND END
+
+//TEMPLATE BEGIN
+long long int cell(long long int R,long long int N){
+        // Base Case
+	if (N == 0) return 1;
+	else if (N == 1) return R;
+	else 
+	{
+		if (N%2==0) return cell(R,N/2)% MOD*cell(R,N/2)% MOD;
+		else if (N%2==1) return R*cell(R,N/2)% MOD*cell(R,N/2)% MOD;
+	}
+}
+//TEMPLATE END
+
+//APPEND BEGIN
+int main(){
+	long long int M, R, N;
+	cin >> M >> R >> N;
+
+	long long int ans = M;
+	ans *= cell(R, N);
+
+	cout << ans % MOD << endl;
+	return 0;
+}
+//APPEND END
