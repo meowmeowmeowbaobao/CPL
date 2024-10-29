@@ -1,0 +1,72 @@
+//PREPEND BEGIN
+#include <iostream>
+using namespace std;
+
+//PREPEND END
+
+//TEMPLATE BEGIN
+
+void rotatepack(const char **A, char **B, int m, int n){
+	int* temp;
+	temp = new int[n];
+	for(int i=0;i<m;i++){
+		//複製直行到temp裡面 
+		for(int j=0;j<n;j++)  temp[j]=A[i][j]; //0是低點 
+		//讓$可以掉落 
+		for(int j=0;j<n;j++){
+			for(int k=0;k<n;k++){
+				if (temp[k]=='$'&&temp[k-1]=='.'){
+					temp[k]='.';
+					temp[k-1]='$';
+				}
+			}
+		}
+		//存到B裡面 
+		for(int j=0;j<n;j++) B[n-j-1][i]=temp[j];
+	}
+}
+
+void printmatrix(const char **B, int m, int n){
+	for(int i=0;i<n;i++) {
+		for(int j=0;j<m;j++){
+			cout<<B[i][j];
+			if (j!=(m-1)) cout<<" ";
+		}
+		cout<<endl;
+	}
+}
+//TEMPLATE END
+
+//APPEND BEGIN
+int main() {
+    int m, n, i, j;
+    cin >> m; //高
+    cin >> n; //寬
+    char **A, **B;
+    A = new char *[m];
+    B = new char *[n];
+    for (i = 0; i < m; i++) {
+        A[i] = new char[n];
+    }
+    for (i = 0; i < n; i++) {
+        B[i] = new char[m];
+    }
+    for (i = 0; i < m; ++i) {
+        for (j = 0; j < n; ++j) {
+            cin >> A[i][j];
+        }
+    }
+    rotatepack((const char**)A, B, m, n);
+    printmatrix((const char**)B, m, n);
+    for (i = 0; i < m; ++i) {
+        delete[] A[i];
+    }
+    for (i = 0; i < n; ++i) {
+        delete[] B[i];
+    }
+    delete[] A;
+    delete[] B;
+    return 0;
+
+}
+//APPEND END
