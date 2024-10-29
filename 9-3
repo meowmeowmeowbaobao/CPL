@@ -1,0 +1,43 @@
+//第三題 
+
+//PREPEND BEGIN
+#include <iostream>
+using namespace std;  
+
+
+char *reverseInt(int n){    
+	static char cc[12];
+	int k=0;
+	if (n<0) {
+		cc[0] = '-';
+		n=-n;
+		while(n!=0){
+			cc[k+1] = n%10+48;
+			n/=10;
+			k+=1;
+		}
+		cc[k+1] = '\0';
+	}
+	else if (n>0){
+		while(n!=0){
+			cc[k] = n%10+48;
+			n/=10;
+			k+=1;
+		}
+		cc[k] = '\0';
+	}
+	return cc;
+} 
+
+
+int main(){          
+	int str;
+	while(1){
+		cin >> str;  
+		if(str == 0) break;
+		else cout << reverseInt(str) << endl;  		
+	}
+	
+	return 0;  
+}  
+//APPEND END
