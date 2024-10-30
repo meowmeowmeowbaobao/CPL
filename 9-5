@@ -1,0 +1,141 @@
+//PREPEND BEGIN
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int* x; 
+int* y; 
+int* availableBikes; 
+int* availableDocks;
+int stationCount = 0;
+
+void system(char op, int a, int input_pswd = 0){
+	static int pswd = 1111;
+	static int totalRentals = 0;
+	switch (op){
+		case 'c': //change passwd
+			if (pswd == input_pswd) pswd = a;
+			else cout << "Access Denied";
+			break;
+		case 'r': //read
+			if(a == 0){ // read rentals		
+				if (pswd == input_pswd)  cout << totalRentals << endl;
+				else cout << "Access Denied";
+			}
+			break;
+		case 'm': //modify
+			if(a == 0) totalRentals++;// rent bikes
+			break;
+		default:
+			return;
+	}
+}
+
+void initializeStations() {
+	cin >> stationCount;
+	x = new int[stationCount];
+	y = new int[stationCount];
+	availableBikes = new int[stationCount];
+	availableDocks = new int[stationCount];
+	for(int i = 0; i < stationCount; i++){
+		cin >> x[i] >> y[i] >> availableBikes[i] >> availableDocks[i];
+	}
+}
+//PREPEND END
+
+//TEMPLATE BEGIN
+//Todo. 0
+void displayNearestStation(int x , int y) {
+	
+    cout << "Nearest Station:\n";
+    cout << "ID: " << 0
+         << " - Available Bikes: " << 0
+         << " - Available Docks: " << 0 << endl;
+}
+
+//Todo. 1  搞定 
+void rentBike(int n) {
+		if(ops[stationIndex][2]==0) cout << "Sorry, no bikes available at " << stationIndex << ".\n";
+		else cout << "You have rented a bike from " << stationIndex << "!\n";
+}
+//Todo. 2  搞定 
+void returnBike(int stationIndex) {
+	if(ops[stationIndex][3]==0) cout << "Sorry, no docks available at " << stationIndex << ".\n";
+	else cout << cout << "You have returned a bike to " << stationIndex << "!\n";
+}
+//Todo. 3
+void displayAll(){ //display all station
+	for(int i = 0; i < stationCount; i++){
+		cout << i << " " << x[i] << " " << y[i] << " "
+			 << availableBikes[i] << " "
+			 << availableDocks[i] << endl;
+	}
+}
+//Todo. 4
+void displayTotalRentals() {
+	
+}
+//TEMPLATE END
+
+//APPEND BEGIN
+
+void cleanMemories() {
+    delete[] x;
+    delete[] y;
+    delete[] availableBikes;
+    delete[] availableDocks;
+}
+
+int main() {
+    int a; //set password
+	int op_count; //operation count
+	int **ops; // operations and input x, input y, if needed
+    cin >> a;
+    system('c', a, 1111);
+    initializeStations();
+    cin >> op_count;
+    ops = new int *[op_count];
+    for(int i = 0; i < op_count ; i++){
+    	ops[i] = new int[3];
+    	cin >> ops[i][0];
+    	switch (ops[i][0]){
+    		case 0: //displayNearestStation
+    			cin >> ops[i][1] >> ops[i][2];
+    			break;
+    		case 1: //rentbike
+    			cin >> ops[i][1];
+    			break;
+    		case 2: //returnbike
+    			cin >> ops[i][1];
+    			break;
+    		case 3:
+    			break;
+    		default:
+    			break;
+		}
+	}
+    for(int i = 0; i < op_count ; i++){
+    	switch (ops[i][0]){
+    		case 0: //displayNearestStation
+    			displayNearestStation(ops[i][1], ops[i][2]);
+    			break;
+    		case 1: //rentBike
+    			rentBike(ops[i][1]);
+    			break;
+    		case 2: //returnBike
+    			returnBike(ops[i][1]);
+    			break;
+    		case 3: //displayAll
+    			displayAll();
+    			break;
+    		default:
+    			break;
+		}
+	}
+	displayTotalRentals(a);
+	for(int i = 0;i < op_count ; i++) delete [] ops[i];
+	delete [] ops;
+    cleanMemories();
+    return 0;
+}
+//APPEND END
