@@ -45,23 +45,47 @@ void initializeStations() {
 
 //TEMPLATE BEGIN
 //Todo. 0
-void displayNearestStation(int x , int y) {
-	
+void displayNearestStation(int userX, int userY) {
+    int nearestIndex = 0;
+    double minDistance = sqrt(pow(x[0] - userX, 2) + pow(y[0] - userY, 2));
+ 
+    for (int i = 1; i < stationCount; i++) {
+        double distance = sqrt(pow(x[i] - userX, 2) + pow(y[i] - userY, 2));
+        if (distance < minDistance) {
+            minDistance = distance;
+            nearestIndex = i;
+        }
+    }
+ 
     cout << "Nearest Station:\n";
-    cout << "ID: " << 0
-         << " - Available Bikes: " << 0
-         << " - Available Docks: " << 0 << endl;
+    cout << "ID: " << nearestIndex
+         << " - Available Bikes: " << availableBikes[nearestIndex]
+         << " - Available Docks: " << availableDocks[nearestIndex] << endl;
 }
+ 
 
 //Todo. 1  搞定 
-void rentBike(int n) {
-		if(ops[stationIndex][2]==0) cout << "Sorry, no bikes available at " << stationIndex << ".\n";
-		else cout << "You have rented a bike from " << stationIndex << "!\n";
+void rentBike(int stationIndex) {
+    if (availableBikes[stationIndex] > 0) {
+        availableBikes[stationIndex]--;
+        availableDocks[stationIndex]++;
+        system('m', 0); // 增加租借次數
+        cout << "You have rented a bike from " << stationIndex << "!\n";
+    }
+	else {
+        cout << "Sorry, no bikes available at " << stationIndex << ".\n";
+    }
 }
+ 
 //Todo. 2  搞定 
 void returnBike(int stationIndex) {
-	if(ops[stationIndex][3]==0) cout << "Sorry, no docks available at " << stationIndex << ".\n";
-	else cout << cout << "You have returned a bike to " << stationIndex << "!\n";
+    if (availableDocks[stationIndex] > 0) {
+        availableBikes[stationIndex]++;
+        availableDocks[stationIndex]--;
+        cout << "You have returned a bike to " << stationIndex << "!\n";
+    } else {
+        cout << "Sorry, no docks available at " << stationIndex << ".\n";
+    }
 }
 //Todo. 3
 void displayAll(){ //display all station
@@ -71,9 +95,9 @@ void displayAll(){ //display all station
 			 << availableDocks[i] << endl;
 	}
 }
-//Todo. 4
-void displayTotalRentals() {
-	
+// Todo. 4: 顯示總租借次數
+void displayTotalRentals(int input_pswd) {
+    system('r', 0, input_pswd);
 }
 //TEMPLATE END
 
