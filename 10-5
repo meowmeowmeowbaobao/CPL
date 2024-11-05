@@ -17,8 +17,8 @@ struct PCMencoder
 void Quantization(PCMencoder& input)
 {
 	double a,b;
-	b = 0.5*(-1*pow(2,input.bit_depth-1) + pow(2,input.bit_depth)-1 );
-	a = 0.5*(pow(2,input.bit_depth-1) + pow(2,input.bit_depth)-1 );
+	b = 0.5*(-1*pow(2,input.bit_depth-1) + pow(2,input.bit_depth-1)-1 );
+	a = 0.5*(pow(2,input.bit_depth-1) + pow(2,input.bit_depth-1)-1 );
 	input.quantized_signal = round(a*input.signal+b);
 }
 
