@@ -3,7 +3,7 @@
 using namespace std;
 
 struct PCMencoder {
-    int bit_depth;          
+    int bit_depth;
     int sampling_rate;      
     double signal;         
     long long int quantized_signal;   
@@ -15,33 +15,42 @@ void Quantization(PCMencoder& input) {
     b = 0.5 * (-1 * pow(2, input.bit_depth - 1) + pow(2, input.bit_depth - 1) - 1);
     a = 0.5 * (pow(2, input.bit_depth - 1) + pow(2, input.bit_depth - 1) - 1);
     input.quantized_signal = round(a * input.signal + b);
+    //cout<<input.quantized_signal<<endl;
 }
 
 void Bit_Convert(PCMencoder& input) {
-	//cout<<"a"<<endl;
-	/*
-    if(input.PCM != NULL) {
-        delete[] input.PCM;  
-        input.PCM = NULL;
-        cout<<"b"<<endl;
-    }
-	*/
-    //cout<<"c"<<endl;
     input.PCM = new char[input.bit_depth];
-    //cout<<"d"<<endl;
-    
-    for (int i = input.bit_depth - 1; i >= 0; i--) {
-    	//cout<<"e"<<endl;
-        if (pow(2, i) <= input.quantized_signal) {
-        	//cout<<"f"<<endl;
-            input.PCM[input.bit_depth - 1 - i] = '1';  
-            input.quantized_signal -= pow(2, i);     
-        } else {
-        	//cout<<"g"<<endl;
-            input.PCM[input.bit_depth - 1 - i] = '0';  
-        }
+   	for (int i = 0; i < input.bit_depth; i++) {
+        input.PCM[i] = '0';
     }
-    //cout<<"h"<<endl;
+    
+    if(input.quantized_signal<0){
+    	input.quantized_signal *= -1;
+    	for (int i = input.bit_depth - 1; i >= 0; i--) {
+    			if (pow(2, i) <= input.quantized_signal) {
+		            input.PCM[input.bit_depth - 1 - i] = '0';  
+		            input.quantized_signal -= pow(2, i);     
+        		} 
+				else {
+            		input.PCM[input.bit_depth - 1 - i] = '1';  
+        		}
+			
+        	
+    	}
+	}
+	
+	else{
+		for (int i = input.bit_depth - 1; i >= 0; i--) {
+	        if (pow(2, i) <= input.quantized_signal) {
+	            input.PCM[input.bit_depth - 1 - i] = '1';  
+	            input.quantized_signal -= pow(2, i);     
+	        } 
+			else {
+	            input.PCM[input.bit_depth - 1 - i] = '0';  
+	        }
+    	}
+	}
+	
 }
 
 void Info_print(const PCMencoder& input) {
