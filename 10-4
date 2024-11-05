@@ -1,0 +1,63 @@
+//PREPEND BEGIN
+#include<iostream>
+using namespace std;
+#define LEN_MAX 10000
+//PREPEND END
+
+//TEMPLATE BEGIN
+struct Sequence
+{
+	int input[LEN_MAX];
+  	int sorted[LEN_MAX];
+};
+
+void Bubble_sort(Sequence & list,int L)
+{	
+	int temp;
+	for(int i=0;i<L;i++){
+		list.sorted[i] = list.input[i];
+	}
+	
+	for(int i=L-1;i>0;i--){
+		for(int j=0;j<i;j++){
+			if (list.sorted[j]>list.sorted[j+1]){
+				temp = list.sorted[j];
+				list.sorted[j] = list.sorted[j+1];
+				list.sorted[j+1] = temp;
+			}
+		}
+	}
+	
+}
+
+void Sequence_print(Sequence list,int L)
+{
+	cout<<"Input sequence: ";
+	for(int i=0;i<L;i++){
+		cout<<list.input[i];
+		if (i==L-1) cout<<endl;
+		else cout<<" ";
+	}
+	
+	cout<<"Sorted sequence: ";
+	for(int i=0;i<L;i++){
+		cout<<list.sorted[i];
+		if (i==L-1) cout<<endl;
+		else cout<<" ";
+	}
+}
+//TEMPLATE END
+
+//APPEND BEGIN
+int main()
+{
+	int i;
+	int L;
+	Sequence list;
+	cin >> L;
+	for (i=0;i<L;i++) {cin >> list.input[i];}
+	Bubble_sort(list,L);
+	Sequence_print(list,L);
+	return 0;
+}
+//APPEND END
