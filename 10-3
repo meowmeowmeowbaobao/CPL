@@ -1,0 +1,64 @@
+//PREPEND BEGIN
+#include <iostream>
+#include <iomanip> 
+#include <cstring>
+#include <cstdlib>
+using namespace std;
+#define LEN_MAX 1000
+//PREPEND END
+
+//TEMPLATE BEGIN
+struct CinParser
+{
+	char input[LEN_MAX];  
+	char base; //代表輸出要幾進位 
+	int num; //幾個數字 
+	long long int* term;
+	char result;
+	long long int * term; 
+};
+
+int count_num(CinParser ADD)
+{
+	int n=0;
+	for(int i=0;i<LEN_MAX<i++){
+		if(ADD.input[i]=='+') n+=1;
+	}
+	return n+1;
+	
+}
+
+void str2ll(CinParser ADD)
+{
+// write your code to calculate the addition
+}
+
+void print_formula(CinParser ADD)
+{
+	if (ADD.base!='D' || ADD.base!='O' || ADD.base!='H') cout<<"Base number error!";
+	else{
+		
+		
+	}
+}
+//TEMPLATE END
+
+//APPEND BEGIN
+int main()
+{
+	CinParser ADD;
+	cin.getline(ADD.input, LEN_MAX);
+	cin >> ADD.base;
+
+	// counting how many numbers
+	ADD.num = count_num(ADD);
+  	ADD.term = new long long int[ADD.num];
+
+	// calculating the addition with manipulation of string
+	str2ll(ADD);
+	
+	// print the equation
+	print_formula(ADD);
+  	delete[] ADD.term;
+}
+//APPEND END
