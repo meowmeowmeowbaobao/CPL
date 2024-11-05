@@ -1,91 +1,92 @@
+//PREPEND BEGIN
 #include<iostream>
 #include<cmath>
 using namespace std;
+//PREPEND END
 
-struct PCMencoder {
-    int bit_depth;
-    int sampling_rate;      
-    double signal;         
-    long long int quantized_signal;   
-    char * PCM;             
+//TEMPLATE BEGIN
+struct PCMencoder
+{
+	int bit_depth;
+	int sampling_rate;
+    double signal;
+    int quantized;
+    int bit[33]={0};
 };
-
-void Quantization(PCMencoder& input) {
-    double a, b;
-    b = 0.5 * (-1 * pow(2, input.bit_depth - 1) + pow(2, input.bit_depth - 1) - 1);
-    a = 0.5 * (pow(2, input.bit_depth - 1) + pow(2, input.bit_depth - 1) - 1);
-    input.quantized_signal = round(a * input.signal + b);
-    //cout<<input.quantized_signal<<endl;
+ 
+void Quantization(PCMencoder &input)
+{
+   input.signal*=pow(2,input.bit_depth-1)-0.5;
+   input.signal-=0.5;
+   input.signal=round(input.signal);
 }
-
-void Bit_Convert(PCMencoder& input) {
-    input.PCM = new char[input.bit_depth];
-   	for (int i = 0; i < input.bit_depth; i++) {
-        input.PCM[i] = '0';
-    }
-    
-    if(input.quantized_signal<0){
-    	input.quantized_signal *= -1;
-    	for (int i = input.bit_depth - 1; i >= 0; i--) {
-    			if (pow(2, i) <= input.quantized_signal) {
-		            input.PCM[input.bit_depth - 1 - i] = '0';  
-		            input.quantized_signal -= pow(2, i);     
-        		} 
-				else {
-            		input.PCM[input.bit_depth - 1 - i] = '1';  
-        		}
-			
-        	
-    	}
-	}
-	
-	else{
-		for (int i = input.bit_depth - 1; i >= 0; i--) {
-	        if (pow(2, i) <= input.quantized_signal) {
-	            input.PCM[input.bit_depth - 1 - i] = '1';  
-	            input.quantized_signal -= pow(2, i);     
-	        } 
-			else {
-	            input.PCM[input.bit_depth - 1 - i] = '0';  
+ 
+void Bit_Convert(PCMencoder &input)
+{
+    if(input.signal>=0){
+	    for(int i=0;i<input.bit_depth;i++){
+	        if(input.signal>=pow(2,input.bit_depth-1-i)){
+		        input.bit[i]=1;
+		        input.signal-=pow(2,input.bit_depth-1-i);
 	        }
-    	}
+	        else input.bit[i]=0;   
+    	}	
 	}
-	
-}
-
-void Info_print(const PCMencoder& input) {
-    cout << "Sampling rate = " << input.sampling_rate << ", ";
-    cout << "bit depth = " << input.bit_depth << endl;
-}
-
-void PCM_print(const PCMencoder& input) {
-    
-    for (int i = 0; i < input.bit_depth; i++) {
-        cout << input.PCM[i];
-        if (i == input.bit_depth - 1) {
-            cout << endl;
-        } else {
-            cout << " ";
+    else{
+        input.signal = -input.signal;
+        for (int i = 0; i < input.bit_depth; i++){
+            if (input.signal >= pow(2, input.bit_depth - 1 - i)){
+                input.bit[i] = 1;
+                input.signal -= pow(2, input.bit_depth - 1 - i);
+            }
+            else input.bit[i] = 0;
+        }
+ 
+        // 取反加一
+        for (int i = 0; i < input.bit_depth; i++) input.bit[i] = input.bit[i] == 0 ? 1 : 0;
+        // 加一
+        for (int i = input.bit_depth - 1; i >= 0; i--)
+        {
+            if (input.bit[i] == 0){
+                input.bit[i] = 1;
+                break;
+            }
+            else input.bit[i] = 0;   
         }
     }
 }
-
-int main() {
-    int i;
-    PCMencoder input;
-    
-    
-    cin >> input.sampling_rate;
-    cin >> input.bit_depth;
-
-    
-    Info_print(input);
-    
-    // Process each signal
-    for (i = 0; i < input.sampling_rate; i++) {
-        cin >> input.signal; 
-        Quantization(input);   
-        Bit_Convert(input);    
-        PCM_print(input);      
-    }
+ 
+void Info_print(PCMencoder input)
+{
+    cout<<"Sampling rate = "<<input.sampling_rate<<", bit depth = "<<input.bit_depth;
+	cout<<"\n";
 }
+ 
+void PCM_print(PCMencoder input)
+{
+    for(int i=0;i<input.bit_depth;i++){	
+	    cout<<input.bit[i];
+	    if(i!=input.bit_depth-1)
+        cout<<" ";
+	}
+	cout<<"\n";
+}
+//TEMPLATE END
+
+//APPEND BEGIN
+int main()
+{
+	int i;
+	PCMencoder input;
+	cin >> input.sampling_rate;
+	cin >> input.bit_depth;
+	Info_print(input);
+	for (i=0;i<input.sampling_rate;i++) 
+	{
+		cin >> input.signal;
+		Quantization(input);
+		Bit_Convert(input);
+		PCM_print(input);
+	}
+}
+//APPEND END
