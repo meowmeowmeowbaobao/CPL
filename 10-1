@@ -1,0 +1,70 @@
+//PREPEND BEGIN
+#include<iostream>
+#include<cstdlib>
+using namespace std;
+#define LEN_MAX 10000
+//PREPEND END
+
+//TEMPLATE BEGIN
+struct OTP
+{
+	char input[LEN_MAX];
+    char output[LEN_MAX];
+    char key[LEN_MAX];
+};
+
+void KeyGen(OTP &key)
+{
+	for (int i=0;i<LEN_MAX;i++){
+		key.key[i] = char(rand()%26+65);
+	}
+}
+
+void Encrypt(OTP &key,int n)
+{
+	int num;
+	num = int(key.input[n])+int(key.key[n]);
+	key.output[n] = num%26+65;
+}
+
+void Cipher_print(OTP key,int L)
+{
+	cout<<"Cipher: ";
+	for (int i=0;i<L;i++){
+		cout<<key.output[i];
+		if (i==L-1) cout<<endl;
+		else cout<<" ";
+	}
+}
+
+void Key_print(OTP key,int L)
+{
+	cout<<"OTP key: ";
+	for (int i=0;i<L;i++){
+		cout<<key.key[i];
+		if (i==L-1) cout<<endl;
+		else cout<<" ";
+	}
+}
+//TEMPLATE END
+
+//APPEND BEGIN
+int main()
+{
+	int i;
+	int L,seed;
+	cin >> seed;
+	srand(seed);
+	OTP key;
+	KeyGen(key);
+	cin >> L;
+	for (i=0;i<L;i++)
+	{
+		cin >> key.input[i];
+		Encrypt(key,i);
+	}
+	Key_print(key,L);
+	Cipher_print(key,L);
+	return 0;
+}
+//APPEND END
