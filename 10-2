@@ -1,0 +1,90 @@
+//PREPEND BEGIN
+#include <iostream>
+#include <ctime>
+#include <cstring>
+using namespace std;
+//PREPEND END
+
+//TEMPLATE BEGIN
+struct exam {
+int days;
+int hours;
+int minutes;
+int seconds;
+};
+
+// 將 Unix timestamp 轉換為 struct tm
+tm* TimeConvert(unsigned long timestamp) {
+time_t time = timestamp;
+return localtime(&time);
+}
+
+// 計算兩個 Unix timestamp 之間的時間差 (秒)
+unsigned long TimeInterval(unsigned long start, unsigned long end) {
+return end - start;
+}
+
+// 計算剩餘時間並儲存在 struct exam 中
+void RemainTime(unsigned long seconds, exam &ex) {
+ex.days = seconds / (24 * 3600);
+seconds %= 24 * 3600;
+ex.hours = seconds / 3600;
+seconds %= 3600;
+ex.minutes = seconds / 60;
+ex.seconds = seconds % 60;
+}
+
+// 輸出時間 (西元年格式)
+void Time_print(tm* time_info) {
+cout << (time_info->tm_year + 1900) << "/"
+<< (time_info->tm_mon + 1) << "/"
+<< time_info->tm_mday << " "
+<< time_info->tm_hour << ":"
+<< time_info->tm_min << ":"
+<< time_info->tm_sec << endl;
+}
+
+// 輸出剩餘時間
+void RemainTime_print(const exam &ex, char examType) {
+cout << "Time remaining (" << (examType == 'S' ? "SPP" : "CPL") << " second midterm):" << endl;
+cout << ex.days << " days, "
+<< ex.hours << " hours, "
+<< ex.minutes << " mins, "
+<< ex.seconds << " seconds" << endl;
+}
+//TEMPLATE END
+
+//APPEND BEGIN
+int main() {
+unsigned long T, SPP, CPL;
+cin >> T >> SPP >> CPL;
+
+// 輸出選定時間
+cout << "Chosen time: ";
+tm* time_info = TimeConvert(T);
+Time_print(time_info);
+
+// 輸出 SPP 考試時間
+cout << "Exam date (SPP): ";
+tm* time_SPP_info = TimeConvert(SPP);
+Time_print(time_SPP_info);
+
+// 輸出 CPL 考試時間
+cout << "Exam date (CPL): ";
+tm* time_CPL_info = TimeConvert(CPL);
+Time_print(time_CPL_info);
+
+// 計算並顯示 SPP 剩餘時間
+exam SPP_info;
+unsigned long SPP_remain = TimeInterval(T, SPP);
+RemainTime(SPP_remain, SPP_info);
+RemainTime_print(SPP_info, 'S');
+
+// 計算並顯示 CPL 剩餘時間
+exam CPL_info;
+unsigned long CPL_remain = TimeInterval(T, CPL);
+RemainTime(CPL_remain, CPL_info);
+RemainTime_print(CPL_info, 'C');
+
+return 0;
+}
