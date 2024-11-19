@@ -1,0 +1,179 @@
+//PREPEND BEGIN
+#include<iostream>
+#include<cmath>
+#include <cstdlib>
+#include<iomanip>
+using namespace std;
+
+struct player {
+    int id;
+    int balance;
+    int curr_block;
+};
+
+struct block {
+    int id; //位置 
+    char type;  
+    int value;  
+    int level;
+    int owner;
+};
+
+
+
+int n_block = 0;
+int n_player = 0;
+int n_step = 0;
+int* steps;
+bool gameover = false;
+block** map;
+player** players;
+
+void init_game() {
+	int value;
+    char type;
+	int balance;
+    cin >> n_block >> n_player;
+    cin >> balance;
+    
+    map = new block*[n_block];
+    players = new player*[n_player];
+
+    for (int i = 0; i < n_block; i++) {
+        cin >> type >> value;
+        block* new_block = new block;
+        new_block->id = i;
+        new_block->type = type;
+        new_block->value = value;
+        new_block->level = 1;
+        new_block->owner = -1;
+        map[i] = new_block;
+    }
+    for (int i = 0; i < n_player; i++) {
+        player* new_player = new player;
+        new_player->id = i;
+        new_player->balance = balance;
+        new_player->curr_block = 0; 
+        players[i] = new_player;
+    }
+    cin >> n_step;
+    steps = new int[n_step];
+    for(int i = 0; i < n_step; i++){
+    	cin >> steps[i];
+	}
+}
+void info(){
+	//balance info
+	cout << left << setw(20) <<"Balance: ";
+	for(int i = 0; i < n_player; i++){
+		cout << players[i]->balance;
+		if(i != n_player - 1) cout << " ";
+	}
+	cout << endl;
+	//block info
+	cout << left << setw(20) << "Block ownership: ";
+	for(int i = 0; i < n_block; i++){
+		if(map[i]->type == 'S') cout << "S";
+		else{
+			if(map[i]->owner == -1) cout << "L";
+			else cout << map[i]->owner;
+		}
+		if(i != n_block -1) cout << " ";
+	}
+	cout << endl;
+	//block level
+	cout << left <<setw(20) << "Block level: ";
+	for(int i = 0; i < n_block; i++){
+		if(map[i]->type == 'S') cout << "S";
+		else cout << map[i]->level;
+		if(i != n_block -1) cout << " ";
+	}
+	cout << endl;
+}
+//PREPEND END
+
+//TEMPLATE BEGIN
+void buy(){
+	//Todo. 1 buy a block
+    //cout << "Player 0 bought block 1" << endl;
+}
+
+void level_up(){
+	//Todo. 2 level up a block
+    //cout << "Player 1 leveled up block 2 to level 2" << endl;  		
+}
+void toll(){
+	//Todo. 3 pay toll
+    //cout << "Player 0 paid 600 to Player 1" << endl;
+	//cout << "Player 1 sold block 2 and his balance increased to 12000" << endl; 
+	//cout << "Player 0 lost the game." << endl;
+}
+void move(int player, int steps) {
+	players[player]-> curr_block += steps;
+	if(players[player]-> curr_block > n_step) {
+		cout << "Player "<<player<<" received a 2000 bonus!" << endl;
+		players[player]-> balance +=2000;
+	} 
+	players[player]-> curr_block = players[player]-> curr_block%n_step;
+	
+    cout << "Player "<<player<<" moved to block "<<players[player]-> curr_block<<" "<< endl;
+	
+	
+	
+	//Todo. 4 move, check bonus, and call buy/level_up/toll functions
+    //cout << "Player 1 received a 2000 bonus!" << endl;
+    //cout << "Player 0 moved to block 1" << endl;
+}
+
+//TEMPLATE END
+
+//APPEND BEGIN
+void cleanup_game() {
+    for (int i = 0; i < n_block; i++) {
+        delete map[i];
+    }
+    delete[] map;
+
+    for (int i = 0; i < n_player; i++) {
+        delete players[i];
+    }
+    delete[] players;
+    delete[] steps;
+}
+
+int main() {
+    init_game();
+    int i = 0;
+    info();
+    //comment this for loop to test
+    for(int j = 0; j < n_step; j++){
+    	cout << "Player: " << i % n_player <<" current block: "<< players[i % n_player]-> curr_block <<" moves: " << steps[j] << endl;
+    	if (steps[j] == 7) info();
+    	else {
+    		move(i % n_player, steps[j]);
+			i++;
+		}
+		if(gameover) break;
+	}
+
+//Uncomment below to Test 
+//	int tmp;
+//	while(true){
+//    	cout << 
+//		"Player: " << i % n_player <<
+//		" current block: "<< players[i % n_player]-> curr_block <<
+//		" moves: ";
+//		cin >> tmp;
+//    	if (tmp == 7) info();
+//    	else {
+//    		move(i % n_player, tmp);
+//			i++;	
+//		}	
+//	}
+	
+	
+	info();
+    cleanup_game(); 
+    return 0;
+}
+//APPEND END
