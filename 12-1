@@ -1,0 +1,58 @@
+#include<iostream>
+#include <cmath>
+#include <cctype>
+#include <cstdlib>
+#include <string>
+using namespace std;
+
+struct Song{
+	char name[20];
+	char singer[20];
+	char tag[20];
+	char lyrics[100];
+};
+
+float bigram(char a,char b){
+	sizeA = sizeof(a);
+	int sizeA,sizeB;
+	int Nx=0;Ny=0,Nt=0; 
+	char tempA[3],tempB[3];
+	sizeA = sizeof(a);
+	sizeB = sizeof(b);
+	Nx = sizeA - 1;
+	Ny = sizeB - 1;
+	for()
+	
+	
+	
+	
+	
+	
+}
+
+int main(){
+	int n;
+	cin>>n;
+	Song cc[n];
+	for(int i=0;i<n;i++){
+		getline(cin, cc[i].name); 
+		getline(cin, cc[i].singer); 
+		getline(cin, cc[i].tag);
+		getline(cin, cc[i].lyrics);  
+	}
+	
+	
+	
+	int m;
+	cin>>m;
+	char **keywords=NULL;
+	keywords = new char*[m];
+	for(int i=0;i<m;i++) keywords[i] = new char[20]; 
+
+	for(int i=0;i<m;i++){
+		for(int j-0;j<n;j++){
+			if() cout<<"Keyword: "<< <<" / Score: "<<分數<<" / Song: "<<歌名; 
+			else cout<<
+		}
+	}
+}
