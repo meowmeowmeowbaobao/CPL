@@ -1,0 +1,332 @@
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////我寫的 跑不對///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//PREPEND BEGIN
+#include<iostream>
+#include<cmath>
+#include<iomanip>
+using namespace std;
+
+class Vec {
+//PREPEND END
+
+//TEMPLATE BEGIN
+public:
+    double x, y;
+    
+    Vec(double px = 0.0, double py = 0.0){
+    	x = px;
+    	y = py;
+	}
+	
+    Vec add(Vec& v1,  Vec& v2) {
+    	v1.x += v2.x;
+    	v1.y +=v2.y;
+        return v1;
+    }
+
+    Vec multiply( Vec& v, double scalar) {
+    	v.x *= scalar;
+    	v.y *= scalar;
+        return v;
+    }
+    void print() {
+        cout << "(" << x << ", " << y << ")";
+    }
+};
+
+class Rectangle {
+private:
+    int recId;
+    
+public:
+    Vec bottomLeft;
+    Vec topRight;
+
+    Rectangle(int id, Vec bl, Vec tr) { 
+        recId = id;
+        bottomLeft = bl;
+        topRight = tr;
+    }
+    
+    void print() {
+    	cout << "Rectangle [" << recId << "]: BottomLeft = " ; 
+		bottomLeft.print() ;
+		cout << ", TopRight = ";
+		topRight.print();
+		cout<<endl; 
+    }
+    
+    double calcArea() {
+    	double area = (topRight.x - bottomLeft.x ) * ( topRight.y - bottomLeft.y);
+    	//cout<<area;
+        return area;
+    }
+
+    
+};
+
+class Circle {
+private:
+    int circleId;
+    double radius;
+    Vec position;
+    Vec velocity;
+
+public:
+    Circle(int id, double rad, Vec p, Vec v) {
+        circleId = id;
+        radius = rad;
+        position = p;
+        velocity = v;
+    }
+    
+    
+    void print() {
+        cout<< "Circle [" << circleId <<"]: Radius = "<< radius <<", Position = ";
+		position.print();
+		cout <<", Velocity = ";
+		velocity.print();
+		cout<<endl;
+    }
+    
+    double calcArea() {
+    	double area = M_PI*radius*radius;
+    	//cout<<area;
+        return area;
+    }
+    
+    void move_checkCollision(double dt, Rectangle& rec) {
+    	
+    	
+    	void move_checkCollision(double dt, Rectangle& rec) {
+        // 計算新位置
+        Vec displacement = velocity.multiply(velocity, dt);
+        position = position.add(position, displacement);
+        
+        // 檢查碰撞（依次檢查左、右、下、上的邊界）
+        if (position.x - radius < rec.bottomLeft.x) { // 左邊界碰撞
+            velocity.x = -velocity.x; // 反轉x速度
+            position.x = rec.bottomLeft.x + radius;
+            cout << "Circle [" << circleId << "] collided on the left side." << endl;
+        }
+         if (position.x + radius > rec.topRight.x) { // 右邊界碰撞
+            velocity.x = -velocity.x; // 反轉x速度
+            position.x = rec.topRight.x - radius;
+            cout << "Circle [" << circleId << "] collided on the right side." << endl;
+        }
+        
+        if (position.y - radius < rec.bottomLeft.y) { // 下邊界碰撞
+            velocity.y = -velocity.y; // 反轉y速度
+            position.y = rec.bottomLeft.y + radius;
+            cout << "Circle [" << circleId << "] collided on the bottom side." << endl;
+        }
+         if (position.y + radius > rec.topRight.y) { // 上邊界碰撞
+            velocity.y = -velocity.y; // 反轉y速度
+            position.y = rec.topRight.y - radius;
+            cout << "Circle [" << circleId << "] collided on the top side." << endl;
+        }
+
+        // 輸出新位置
+        cout << "Circle [" << circleId << "] moved to ";
+        position.print();
+        cout << endl;
+    }
+
+    
+//TEMPLATE END
+
+//APPEND BEGIN
+};
+
+int main() {
+    int id, numsteps;
+    double rc, px1, py1, px2, py2 , vx, vy, dt;
+    // input-circle
+    cin >> id >> rc >> px1 >> py1 >> vx >> vy;
+    Circle c1(id, rc, Vec(px1, py1), Vec(vx, vy));
+    // input-rectangle
+    cin >> id >> px1 >> py1 >> px2 >> py2;
+    Rectangle rec(id, Vec(px1, py1), Vec(px2, py2));
+    // input-simulation
+    cin >> numsteps >> dt;
+    
+    // output-basic info
+    cout << fixed << setprecision(2);
+    c1.print();
+    cout << "Area: " << c1.calcArea() << endl;
+    rec.print();
+    cout << "Area: " << rec.calcArea() << endl;
+
+    // output-simulation
+    cout << "\nSimulating movement and collision:\n";
+    c1.print();
+    for (int step = 0; step < numsteps; ++step) {
+        c1.move_checkCollision(dt, rec);
+    }
+
+    return 0;
+}
+//APPEND END
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////別人寫的 跑對///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//PREPEND BEGIN
+#include<iostream>
+#include<cmath>
+#include<iomanip>
+using namespace std;
+
+class Vec {
+//PREPEND END
+
+public:
+    double x, y;
+
+    Vec(double px = 0.0, double py = 0.0){
+    	x = px;
+    	y = py;
+	}
+
+    Vec add(const Vec& v1, const Vec& v2) {
+    	//todo 3. vector addition
+    	Vec v;
+    	v.x=v1.x+v2.x;
+    	v.y=v1.y+v2.y;
+        return (*this);
+    }
+
+    Vec multiply(const Vec& v, double scalar) {
+    	//todo 3. vector scaling
+    	Vec v1;
+    	v1.x=v.x*scalar;
+    	v1.y=v.y*scalar;
+        return (*this);
+    }
+    void print() {
+        cout << "(" << x << ", " << y << ")";
+    }
+};
+
+class Rectangle {
+private:
+    int recId;
+
+public:
+    Vec bottomLeft;
+    Vec topRight;
+
+    Rectangle(int id, Vec bl, Vec tr) {
+        recId = id;
+        bottomLeft = bl;
+        topRight = tr;
+    }
+
+    void print() {
+    	//Todo 1. print rectangle info
+    	cout <<"Rectangle [" <<recId<<"]: BottomLeft = ("<<bottomLeft.x<<", "<< bottomLeft.y<<"), TopRight = ("<<topRight.x<<", "<<topRight.y<<")"<<endl;
+
+    }
+
+    double calcArea() {
+    	//Todo 2. calculate rectangle area
+    	double area=0.00;
+    	area=(topRight.x-bottomLeft.x)*(topRight.y-bottomLeft.y);
+        return area;
+    }
+
+
+};
+
+class Circle {
+private:
+    int circleId;
+    double radius;
+    Vec position;
+    Vec velocity;
+
+public:
+    Circle(int id, double rad, Vec p, Vec v) {
+        circleId = id;
+        radius = rad;
+        position = p;
+        velocity = v;
+    }
+
+
+    void print() {
+        //Todo 1. print circle info
+        cout << "Circle [" << circleId << "]: Radius = " << radius << ", Position = (" << position.x<< ", " << position.y<< "), Velocity = (" << velocity.x<< ", " << velocity.y<< ")" << endl;
+    }
+
+    double calcArea() {
+    	//Todo 2. calculate circle area
+    	double area=0.00;
+    	area=M_PI*radius*radius;
+        return area;
+    }
+
+    void move_checkCollision(double dt, Rectangle& rec) {
+    	//Todo 3. use vec to calculate and display moving result
+
+        position.x+=velocity.x*dt;
+        position.y+=velocity.y*dt;
+
+
+
+    	//Todo 4. collision
+    	if(rec.bottomLeft.x>=position.x-radius){
+            cout <<"Circle ["<<circleId<<"] collided on the left side."<<endl;
+            velocity.x*=(-1);
+            position.x=(rec.bottomLeft.x+radius);
+            }
+    	if(rec.bottomLeft.y>=position.y-radius){
+            cout <<"Circle ["<<circleId<<"] collided on the bottom side."<<endl;
+            velocity.y*=(-1);
+            position.y=(rec.bottomLeft.y+radius);
+            }
+    	if(rec.topRight.x<=position.x+radius){
+            cout <<"Circle ["<<circleId<<"] collided on the right side."<<endl;
+            velocity.x*=(-1);
+            position.x=rec.topRight.x-radius;
+            }
+    	if(rec.topRight.y<=position.y+radius){
+            cout <<"Circle ["<<circleId<<"] collided on the top side."<<endl;
+            velocity.y*=(-1);
+            position.y=rec.topRight.y-radius;
+            }
+
+        cout << "Circle ["<<circleId<<"] moved to ("<<position.x<<", "<<position.y<<")"<<endl;
+    }
+//APPEND BEGIN
+};
+
+int main() {
+    int id, numsteps;
+    double rc, px1, py1, px2, py2 , vx, vy, dt;
+    // input-circle
+    cin >> id >> rc >> px1 >> py1 >> vx >> vy;
+    Circle c1(id, rc, Vec(px1, py1), Vec(vx, vy));
+    // input-rectangle
+    cin >> id >> px1 >> py1 >> px2 >> py2;
+    Rectangle rec(id, Vec(px1, py1), Vec(px2, py2));
+    // input-simulation
+    cin >> numsteps >> dt;
+    
+    // output-basic info
+    cout << fixed << setprecision(2);
+    c1.print();
+    cout << "Area: " << c1.calcArea() << endl;
+    rec.print();
+    cout << "Area: " << rec.calcArea() << endl;
+
+    // output-simulation
+    cout << "\nSimulating movement and collision:\n";
+    c1.print();
+    for (int step = 0; step < numsteps; ++step) {
+        c1.move_checkCollision(dt, rec);
+    }
+
+    return 0;
+}
+//APPEND END
